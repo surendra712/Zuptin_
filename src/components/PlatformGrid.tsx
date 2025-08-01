@@ -15,7 +15,7 @@ const platforms = [
   {
     id: "zepto",
     name: "Zepto",
-    url: "https://zepto.co.in",
+    url: "https://www.zeptonow.com",
     color: "bg-purple-500",
     description: "Quick grocery delivery",
     icon: "🚀",
@@ -24,7 +24,7 @@ const platforms = [
   {
     id: "swiggy",
     name: "Swiggy Instamart",
-    url: "https://instamart.swiggy.com",
+    url: "https://www.swiggy.com/instamart",
     color: "bg-orange-500",
     description: "Instant grocery delivery",
     icon: "🛒",
@@ -33,7 +33,7 @@ const platforms = [
   {
     id: "bigbasket",
     name: "BigBasket",
-    url: "https://bigbasket.com",
+    url: "https://www.bigbasket.com",
     color: "bg-green-500",
     description: "India's largest grocery",
     icon: "🥬",
@@ -42,7 +42,7 @@ const platforms = [
   {
     id: "amazon",
     name: "Amazon Fresh",
-    url: "https://amazon.in/fresh",
+    url: "https://www.amazon.in/alm/storefront?almBrandId=VUZHIFdob2xlIEZvb2Rz",
     color: "bg-blue-500",
     description: "Fresh groceries delivered",
     icon: "📦",
@@ -51,7 +51,7 @@ const platforms = [
   {
     id: "flipkart",
     name: "Flipkart Grocery",
-    url: "https://flipkart.com/grocery",
+    url: "https://www.flipkart.com/grocery-supermart-store",
     color: "bg-indigo-500",
     description: "Grocery at your doorstep",
     icon: "🏪",

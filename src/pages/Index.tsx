@@ -1,14 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import PlatformGrid from "@/components/PlatformGrid";
 import PlatformViewer from "@/components/PlatformViewer";
+import Footer from "@/components/Footer";
+import { useAuth } from "@/hooks/useAuth";
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<'hero' | 'platforms' | 'viewer'>('hero');
   const [selectedPlatform, setSelectedPlatform] = useState<any>(null);
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
   const handleGetStarted = () => {
+    if (!user && !loading) {
+      navigate('/auth');
+      return;
+    }
     setCurrentView('platforms');
   };
 
@@ -49,6 +58,8 @@ const Index = () => {
           </div>
         )}
       </main>
+      
+      <Footer />
     </div>
   );
 };

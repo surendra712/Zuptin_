@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, ShoppingCart } from "lucide-react";
-import { useTheme } from "next-themes";
+import { ShoppingCart, LogIn } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import UserMenu from "./UserMenu";
 
 const Header = () => {
-  const { theme, setTheme } = useTheme();
+  const { user, loading } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
@@ -24,16 +26,18 @@ const Header = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="rounded-full"
-            >
-              <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">Toggle theme</span>
-            </Button>
+            {!loading && (
+              user ? (
+                <UserMenu />
+              ) : (
+                <Button asChild variant="outline" size="sm">
+                  <Link to="/auth">
+                    <LogIn className="h-4 w-4 mr-2" />
+                    Sign In
+                  </Link>
+                </Button>
+              )
+            )}
           </div>
         </div>
       </div>

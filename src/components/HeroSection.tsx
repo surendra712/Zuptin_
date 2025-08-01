@@ -33,10 +33,6 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
             <ShoppingCart className="h-5 w-5" />
             Start Shopping
           </Button>
-          <Button variant="outline" size="lg">
-            <Zap className="h-4 w-4" />
-            See How It Works
-          </Button>
         </div>
       </div>
 

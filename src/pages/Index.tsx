@@ -1,12 +1,54 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import Header from "@/components/Header";
+import HeroSection from "@/components/HeroSection";
+import PlatformGrid from "@/components/PlatformGrid";
+import PlatformViewer from "@/components/PlatformViewer";
 
 const Index = () => {
+  const [currentView, setCurrentView] = useState<'hero' | 'platforms' | 'viewer'>('hero');
+  const [selectedPlatform, setSelectedPlatform] = useState<any>(null);
+
+  const handleGetStarted = () => {
+    setCurrentView('platforms');
+  };
+
+  const handlePlatformSelect = (platform: any) => {
+    setSelectedPlatform(platform);
+    setCurrentView('viewer');
+  };
+
+  const handleBack = () => {
+    if (currentView === 'viewer') {
+      setCurrentView('platforms');
+      setSelectedPlatform(null);
+    } else if (currentView === 'platforms') {
+      setCurrentView('hero');
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gradient-subtle">
+      <Header />
+      
+      <main className="container mx-auto px-4 py-8">
+        {currentView === 'hero' && (
+          <div className="animate-fade-in">
+            <HeroSection onGetStarted={handleGetStarted} />
+          </div>
+        )}
+
+        {currentView === 'platforms' && (
+          <div className="animate-fade-in">
+            <PlatformGrid onPlatformSelect={handlePlatformSelect} />
+          </div>
+        )}
+
+        {currentView === 'viewer' && selectedPlatform && (
+          <div className="animate-fade-in">
+            <PlatformViewer platform={selectedPlatform} onBack={handleBack} />
+          </div>
+        )}
+      </main>
     </div>
   );
 };

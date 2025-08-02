@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import PlatformGrid from "@/components/PlatformGrid";
@@ -12,6 +12,15 @@ const Index = () => {
   const [selectedPlatform, setSelectedPlatform] = useState<any>(null);
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Reset to hero view when navigating to home
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setCurrentView('hero');
+      setSelectedPlatform(null);
+    }
+  }, [location.pathname]);
 
   const handleGetStarted = () => {
     if (!user && !loading) {

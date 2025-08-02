@@ -30,6 +30,11 @@ const Index = () => {
     setCurrentView('platforms');
   };
 
+  const handleLogoClick = () => {
+    setCurrentView('hero');
+    setSelectedPlatform(null);
+  };
+
   // Platform selection now directly opens external URLs
 
   const handleBack = () => {
@@ -43,7 +48,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
-      <Header />
+      <Header onLogoClick={handleLogoClick} />
       
       <main className="container mx-auto px-4 py-8">
         {currentView === 'hero' && (

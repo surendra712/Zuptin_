@@ -11,7 +11,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <div className="relative">
               <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow">
                 <ShoppingCart className="h-5 w-5 text-white" />
@@ -23,7 +23,7 @@ const Header = () => {
               </h1>
               <p className="text-xs text-muted-foreground">All platforms, one app</p>
             </div>
-          </div>
+          </Link>
 
           <div className="flex items-center gap-2">
             {!loading && (

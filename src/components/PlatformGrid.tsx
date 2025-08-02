@@ -42,7 +42,7 @@ const platforms = [
   {
     id: "amazon",
     name: "Amazon Fresh",
-    url: "https://www.amazon.in/alm/storefront?almBrandId=VUZHIFdob2xlIEZvb2Rz",
+    url: "https://www.amazon.in/fresh",
     color: "bg-blue-500",
     description: "Fresh groceries delivered",
     icon: "📦",
@@ -51,7 +51,7 @@ const platforms = [
   {
     id: "flipkart",
     name: "Flipkart Grocery",
-    url: "https://www.flipkart.com/grocery-supermart-store",
+    url: "https://www.flipkart.com/grocery/pr?sid=fmcg",
     color: "bg-indigo-500",
     description: "Grocery at your doorstep",
     icon: "🏪",
@@ -60,10 +60,13 @@ const platforms = [
 ];
 
 interface PlatformGridProps {
-  onPlatformSelect: (platform: any) => void;
+  // No props needed anymore since we directly redirect
 }
 
-const PlatformGrid = ({ onPlatformSelect }: PlatformGridProps) => {
+const PlatformGrid = () => {
+  const handlePlatformClick = (url: string) => {
+    window.open(url, '_blank');
+  };
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
@@ -76,7 +79,7 @@ const PlatformGrid = ({ onPlatformSelect }: PlatformGridProps) => {
           <Card 
             key={platform.id} 
             className="group hover:shadow-elegant transition-all duration-300 hover:scale-105 cursor-pointer border-border/50"
-            onClick={() => onPlatformSelect(platform)}
+            onClick={() => handlePlatformClick(platform.url)}
           >
             <CardContent className="p-6 space-y-4">
               <div className="flex items-center justify-between">
@@ -106,11 +109,11 @@ const PlatformGrid = ({ onPlatformSelect }: PlatformGridProps) => {
                 className="w-full justify-between"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onPlatformSelect(platform);
+                  handlePlatformClick(platform.url);
                 }}
               >
                 Open Platform
-                <Clock className="h-4 w-4" />
+                <ExternalLink className="h-4 w-4" />
               </Button>
             </CardContent>
           </Card>

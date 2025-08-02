@@ -21,10 +21,7 @@ const Index = () => {
     setCurrentView('platforms');
   };
 
-  const handlePlatformSelect = (platform: any) => {
-    setSelectedPlatform(platform);
-    setCurrentView('viewer');
-  };
+  // Platform selection now directly opens external URLs
 
   const handleBack = () => {
     if (currentView === 'viewer') {
@@ -48,15 +45,11 @@ const Index = () => {
 
         {currentView === 'platforms' && (
           <div className="animate-fade-in">
-            <PlatformGrid onPlatformSelect={handlePlatformSelect} />
+            <PlatformGrid />
           </div>
         )}
 
-        {currentView === 'viewer' && selectedPlatform && (
-          <div className="animate-fade-in">
-            <PlatformViewer platform={selectedPlatform} onBack={handleBack} />
-          </div>
-        )}
+        {/* Viewer removed - platforms now open directly in new tabs */}
       </main>
       
       <Footer />

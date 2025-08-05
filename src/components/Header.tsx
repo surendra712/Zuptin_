@@ -26,7 +26,7 @@ const Header = ({ onLogoClick }: HeaderProps = {}) => {
             </div>
             <div>
               <h1 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                Onecart
+                Zuptin
               </h1>
               <p className="text-xs text-muted-foreground">All platforms, one app</p>
             </div>

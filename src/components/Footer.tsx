@@ -14,13 +14,13 @@ const Footer = () => {
               </div>
               <div>
                 <h2 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                  Onecart
+                  Zuptin
                 </h2>
                 <p className="text-xs text-muted-foreground">All platforms, one app</p>
               </div>
             </div>
             <p className="text-sm text-muted-foreground mb-4 max-w-md">
-              Onecart is your gateway to all major grocery delivery platforms. Shop from multiple stores, 
+              Zuptin is your gateway to all major grocery delivery platforms. Shop from multiple stores, 
               compare prices, and save time - all from one convenient interface.
             </p>
             <div className="flex flex-wrap gap-2">
@@ -41,8 +41,8 @@ const Footer = () => {
               <li>Zepto</li>
               <li>Swiggy Instamart</li>
               <li>BigBasket</li>
-              <li>Amazon Fresh</li>
-              <li>Flipkart Grocery</li>
+              <li>Dunzo</li>
+              <li>JioMart</li>
             </ul>
           </div>
 
@@ -63,14 +63,14 @@ const Footer = () => {
         <div className="border-t border-border/50 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-sm text-muted-foreground">
-              © 2025 Onecart. All rights reserved.
+              © 2025 Zuptin. All rights reserved.
             </div>
             <div className="text-xs text-muted-foreground text-center md:text-right">
               <p className="mb-1">
                 <strong>Disclaimer:</strong> All brand names, logos, and trademarks belong to their respective owners.
               </p>
               <p>
-                Onecart is an independent platform providing convenient access to publicly available grocery platforms.
+                Zuptin is an independent platform providing convenient access to publicly available grocery platforms.
               </p>
             </div>
           </div>

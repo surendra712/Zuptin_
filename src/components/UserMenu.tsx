@@ -45,13 +45,17 @@ const UserMenu = () => {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <User className="mr-2 h-4 w-4" />
-          <span>Profile</span>
+        <DropdownMenuItem asChild>
+          <a href="/profile">
+            <User className="mr-2 h-4 w-4" />
+            <span>Profile</span>
+          </a>
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Settings className="mr-2 h-4 w-4" />
-          <span>Settings</span>
+        <DropdownMenuItem asChild>
+          <a href="/settings">
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Settings</span>
+          </a>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
           {theme === "dark" ? (

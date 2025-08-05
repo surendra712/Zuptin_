@@ -40,22 +40,22 @@ const platforms = [
     features: ["Huge selection", "Scheduled delivery"]
   },
   {
-    id: "amazon",
-    name: "Amazon Fresh",
-    url: "https://www.amazon.in/fresh",
+    id: "dunzo",
+    name: "Dunzo",
+    url: "https://www.dunzo.com",
     color: "bg-blue-500",
-    description: "Fresh groceries delivered",
-    icon: "📦",
-    features: ["Prime delivery", "Quality assured"]
+    description: "Delivery in minutes",
+    icon: "🚚",
+    features: ["Quick delivery", "Multiple categories"]
   },
   {
-    id: "flipkart",
-    name: "Flipkart Grocery",
-    url: "https://www.flipkart.com/grocery/pr?sid=fmcg",
+    id: "jiomart",
+    name: "JioMart",
+    url: "https://www.jiomart.com",
     color: "bg-indigo-500",
-    description: "Grocery at your doorstep",
+    description: "India's most loved shopping app",
     icon: "🏪",
-    features: ["Best deals", "Quick delivery"]
+    features: ["Great prices", "Quality products"]
   }
 ];
 

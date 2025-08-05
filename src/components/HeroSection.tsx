@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ShoppingCart, Zap, Smartphone, Clock } from "lucide-react";
+import SocialLinks from "./SocialLinks";
 
 interface HeroSectionProps {
   onGetStarted: () => void;
@@ -13,13 +14,11 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
       <div className="text-center space-y-6 py-12">
         <div className="space-y-4">
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-hero bg-clip-text text-transparent leading-tight">
-            All Grocery Platforms
-            <br />
-            <span className="text-3xl md:text-5xl">In One Place</span>
+            Your Favorite Grocery Apps — All in One Smart Cart
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Access Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh and more without installing multiple apps. 
-            Compare prices, save storage, shop smarter.
+            Shop from Blinkit, Zepto, Instamart, BigBasket, Jiomart & more — all within Zuptin.
+            Compare prices. Save time. Skip the app-switching.
           </p>
         </div>
 
@@ -31,8 +30,12 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
             className="shadow-glow"
           >
             <ShoppingCart className="h-5 w-5" />
-            Start Shopping
+            🛒 Start Shopping with Zuptin
           </Button>
+        </div>
+        
+        <div className="flex justify-center mt-8">
+          <SocialLinks />
         </div>
       </div>
 
@@ -44,9 +47,10 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
               <Smartphone className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h3 className="font-semibold text-lg">No App Downloads</h3>
+              <h3 className="font-semibold text-lg">📱 No Installs, Just Access</h3>
               <p className="text-muted-foreground text-sm">
-                Access all platforms directly through your browser. Save phone storage and battery.
+                Use Zuptin directly from your browser.
+                No downloads, no updates — just instant grocery access.
               </p>
             </div>
           </CardContent>
@@ -58,9 +62,10 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
               <Clock className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h3 className="font-semibold text-lg">Compare Instantly</h3>
+              <h3 className="font-semibold text-lg">🔎 Compare Across Stores</h3>
               <p className="text-muted-foreground text-sm">
-                Switch between platforms seamlessly to compare prices and find the best deals.
+                Effortlessly browse and compare prices from all major grocery apps —
+                save time, save money, shop smart.
               </p>
             </div>
           </CardContent>
@@ -72,9 +77,10 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
               <Zap className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h3 className="font-semibold text-lg">Lightning Fast</h3>
+              <h3 className="font-semibold text-lg">⚡ Blazing Fast Experience</h3>
               <p className="text-muted-foreground text-sm">
-                Optimized interface for quick switching and smooth browsing experience.
+                Enjoy a super-smooth, lag-free interface built for speed.
+                Quick switching, instant loading, zero delay.
               </p>
             </div>
           </CardContent>

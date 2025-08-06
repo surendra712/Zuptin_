@@ -29,8 +29,12 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
             onClick={onGetStarted}
             className="shadow-glow"
           >
-            <ShoppingCart className="h-5 w-5" />
-            🛒 Start Shopping with Zuptin
+            <img 
+              src="/lovable-uploads/3a660009-4644-4dfd-a50d-d2070079b4b1.png" 
+              alt="Zuptin Logo" 
+              className="h-5 w-5 object-contain" 
+            />
+            Start Shopping with Zuptin
           </Button>
         </div>
         

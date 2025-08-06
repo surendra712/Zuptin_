@@ -38,24 +38,6 @@ const platforms = [
     description: "India's largest grocery",
     icon: "🥬",
     features: ["Huge selection", "Scheduled delivery"]
-  },
-  {
-    id: "dunzo",
-    name: "Dunzo",
-    url: "https://www.dunzo.com",
-    color: "bg-blue-500",
-    description: "Delivery in minutes",
-    icon: "🚚",
-    features: ["Quick delivery", "Multiple categories"]
-  },
-  {
-    id: "jiomart",
-    name: "JioMart",
-    url: "https://www.jiomart.com",
-    color: "bg-indigo-500",
-    description: "India's most loved shopping app",
-    icon: "🏪",
-    features: ["Great prices", "Quality products"]
   }
 ];
 
@@ -74,7 +56,7 @@ const PlatformGrid = () => {
         <p className="text-muted-foreground">Access all major grocery platforms in one place</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
         {platforms.map((platform) => (
           <Card 
             key={platform.id} 

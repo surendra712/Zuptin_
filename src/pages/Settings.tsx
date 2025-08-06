@@ -5,9 +5,13 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ArrowLeft, Settings as SettingsIcon, Shield, Database, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Settings = () => {
   const { user, signOut } = useAuth();
@@ -17,6 +21,15 @@ const Settings = () => {
   const [showAds, setShowAds] = useState(true);
   const [pushNotifications, setPushNotifications] = useState(true);
   const [defaultPlatform, setDefaultPlatform] = useState("blinkit");
+
+  // Account Settings State
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false);
+  const [updateEmailOpen, setUpdateEmailOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!user) {
     return (
@@ -33,8 +46,137 @@ const Settings = () => {
     );
   }
 
+  const handleChangePassword = async () => {
+    if (newPassword !== confirmPassword) {
+      toast({
+        title: "Password Mismatch",
+        description: "New passwords do not match.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      toast({
+        title: "Password Too Short",
+        description: "Password must be at least 8 characters long.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Password Changed",
+        description: "Your password has been updated successfully.",
+      });
+      setChangePasswordOpen(false);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (error: any) {
+      toast({
+        title: "Password Change Failed",
+        description: error.message || "Failed to change password.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleUpdateEmail = async () => {
+    if (!newEmail || !newEmail.includes('@')) {
+      toast({
+        title: "Invalid Email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.updateUser({
+        email: newEmail
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Email Update Requested",
+        description: "Please check your new email for confirmation.",
+      });
+      setUpdateEmailOpen(false);
+      setNewEmail("");
+    } catch (error: any) {
+      toast({
+        title: "Email Update Failed",
+        description: error.message || "Failed to update email.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (window.confirm("Are you sure you want to permanently delete your account? This action cannot be undone.")) {
+      if (window.confirm("This will permanently delete all your data. Are you absolutely sure?")) {
+        setIsLoading(true);
+        try {
+          // First delete the profile
+          await supabase
+            .from('profiles')
+            .delete()
+            .eq('user_id', user.id);
+
+          // Then delete the user account
+          const { error } = await supabase.auth.admin.deleteUser(user.id);
+          
+          if (error) throw error;
+
+          toast({
+            title: "Account Deleted",
+            description: "Your account has been permanently deleted.",
+          });
+          
+          // Sign out and redirect
+          await signOut();
+        } catch (error: any) {
+          toast({
+            title: "Account Deletion Failed",
+            description: error.message || "Failed to delete account. Please contact support.",
+            variant: "destructive",
+          });
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    }
+  };
+
   const handleClearCache = () => {
-    localStorage.removeItem('recently-used-platforms');
+    // Clear all local storage items related to the app
+    const keysToRemove = [
+      'recently-used-platforms',
+      'app-preferences',
+      'platform-history',
+      'search-history'
+    ];
+    
+    keysToRemove.forEach(key => {
+      localStorage.removeItem(key);
+      sessionStorage.removeItem(key);
+    });
+    
     toast({
       title: "Cache Cleared",
       description: "Local cache has been cleared successfully.",
@@ -43,6 +185,8 @@ const Settings = () => {
 
   const handleClearRecentlyUsed = () => {
     localStorage.removeItem('recently-used-platforms');
+    sessionStorage.removeItem('recently-used-platforms');
+    
     toast({
       title: "Recently Used Cleared",
       description: "Recently used platforms have been cleared.",
@@ -51,19 +195,23 @@ const Settings = () => {
 
   const handleExportData = () => {
     const userData = {
-      email: user.email,
-      created_at: user.created_at,
+      user: {
+        id: user.id,
+        email: user.email,
+        created_at: user.created_at,
+      },
       preferences: {
         showAds,
         pushNotifications,
         defaultPlatform
-      }
+      },
+      exportedAt: new Date().toISOString()
     };
     
     const dataStr = JSON.stringify(userData, null, 2);
     const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
     
-    const exportFileDefaultName = 'zuptin-user-data.json';
+    const exportFileDefaultName = `zuptin-user-data-${new Date().toISOString().split('T')[0]}.json`;
     
     const linkElement = document.createElement('a');
     linkElement.setAttribute('href', dataUri);
@@ -74,19 +222,6 @@ const Settings = () => {
       title: "Data Exported",
       description: "Your data has been exported successfully.",
     });
-  };
-
-  const handleDeleteAccount = () => {
-    if (window.confirm("Are you sure you want to permanently delete your account? This action cannot be undone.")) {
-      if (window.confirm("This will permanently delete all your data. Are you absolutely sure?")) {
-        // In a real app, this would call the deletion API
-        toast({
-          title: "Account Deletion",
-          description: "Account deletion is not implemented in this demo.",
-          variant: "destructive",
-        });
-      }
-    }
   };
 
   return (
@@ -154,8 +289,6 @@ const Settings = () => {
                       <SelectItem value="zepto">Zepto</SelectItem>
                       <SelectItem value="instamart">Swiggy Instamart</SelectItem>
                       <SelectItem value="bigbasket">BigBasket</SelectItem>
-                      <SelectItem value="dunzo">Dunzo</SelectItem>
-                      <SelectItem value="jiomart">JioMart</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -171,18 +304,96 @@ const Settings = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <Button variant="outline" className="w-full justify-start">
-                  Change Password
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  Update Email
-                </Button>
+                <Dialog open={changePasswordOpen} onOpenChange={setChangePasswordOpen}>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="w-full justify-start">
+                      Change Password
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Change Password</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="newPassword">New Password</Label>
+                        <Input
+                          id="newPassword"
+                          type="password"
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          placeholder="Enter new password"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="confirmPassword">Confirm New Password</Label>
+                        <Input
+                          id="confirmPassword"
+                          type="password"
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          placeholder="Confirm new password"
+                        />
+                      </div>
+                      <Button 
+                        onClick={handleChangePassword} 
+                        disabled={isLoading}
+                        className="w-full"
+                      >
+                        {isLoading ? "Changing..." : "Change Password"}
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+
+                <Dialog open={updateEmailOpen} onOpenChange={setUpdateEmailOpen}>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="w-full justify-start">
+                      Update Email
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Update Email</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="currentEmail">Current Email</Label>
+                        <Input
+                          id="currentEmail"
+                          value={user.email || ""}
+                          disabled
+                          className="bg-muted"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="newEmailInput">New Email</Label>
+                        <Input
+                          id="newEmailInput"
+                          type="email"
+                          value={newEmail}
+                          onChange={(e) => setNewEmail(e.target.value)}
+                          placeholder="Enter new email address"
+                        />
+                      </div>
+                      <Button 
+                        onClick={handleUpdateEmail} 
+                        disabled={isLoading}
+                        className="w-full"
+                      >
+                        {isLoading ? "Updating..." : "Update Email"}
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+                
                 <Button 
                   variant="destructive" 
                   className="w-full justify-start" 
                   onClick={handleDeleteAccount}
+                  disabled={isLoading}
                 >
-                  Delete Account
+                  {isLoading ? "Deleting..." : "Delete Account"}
                 </Button>
               </CardContent>
             </Card>

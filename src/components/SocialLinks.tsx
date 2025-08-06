@@ -4,7 +4,7 @@ const SocialLinks = () => {
   return (
     <div className="flex items-center gap-4">
       <a
-        href="https://instagram.com/zuptin"
+        href="https://instagram.com/zuptiin_"
         target="_blank"
         rel="noopener noreferrer"
         className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-glow"
@@ -12,7 +12,7 @@ const SocialLinks = () => {
         <Instagram className="h-5 w-5 text-white" />
       </a>
       <a
-        href="https://youtube.com/@zuptin"
+        href="https://youtube.com/@zuptin-w7h?si=sZgNX-z7veJZvwo-"
         target="_blank"
         rel="noopener noreferrer"
         className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-glow"
@@ -20,7 +20,7 @@ const SocialLinks = () => {
         <Youtube className="h-5 w-5 text-white" />
       </a>
       <a
-        href="https://twitter.com/zuptin"
+        href="https://x.com/zuptin07"
         target="_blank"
         rel="noopener noreferrer"
         className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-glow"

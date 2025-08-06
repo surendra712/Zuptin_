@@ -21,7 +21,11 @@ const Header = ({ onLogoClick }: HeaderProps = {}) => {
           >
             <div className="relative">
               <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow">
-                <ShoppingCart className="h-5 w-5 text-white" />
+                <img 
+                  src="/lovable-uploads/3a660009-4644-4dfd-a50d-d2070079b4b1.png" 
+                  alt="Zuptin Logo" 
+                  className="h-6 w-6 object-contain" 
+                />
               </div>
             </div>
             <div>

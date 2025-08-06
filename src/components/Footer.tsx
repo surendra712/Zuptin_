@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { ShoppingCart } from "lucide-react";
+import { Instagram, Twitter, Youtube } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -9,40 +10,77 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow">
-                <ShoppingCart className="h-5 w-5 text-white" />
+              <div className="w-10 h-10 rounded-xl overflow-hidden shadow-glow">
+                <img 
+                  src="/zuptin-logo.jpg" 
+                  alt="Zuptin Logo" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
                 <h2 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                   Zuptin
                 </h2>
-                <p className="text-xs text-muted-foreground">All platforms, one app</p>
+                <p className="text-xs text-muted-foreground">Choose.. Compare.. Save..</p>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground mb-4 max-w-md">
-              Zuptin is your gateway to all major grocery delivery platforms. Shop from multiple stores, 
-              compare prices, and save time - all from one convenient interface.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm">
-                Privacy Policy
-              </Button>
-              <Button variant="outline" size="sm">
-                Terms of Service
-              </Button>
+            <div className="flex items-center gap-4">
+              <a
+                href="https://www.instagram.com/zuptin_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-glow"
+              >
+                <Instagram className="h-5 w-5 text-white" />
+              </a>
+              <a
+                href="https://youtube.com/@zuptin-w7h?si=sZgNX-z7veJZvwo-"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-glow"
+              >
+                <Youtube className="h-5 w-5 text-white" />
+              </a>
+              <a
+                href="https://x.com/zuptin07"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-glow"
+              >
+                <Twitter className="h-5 w-5 text-white" />
+              </a>
             </div>
           </div>
 
-          {/* Platforms */}
+          {/* Navigation */}
           <div>
-            <h3 className="font-semibold mb-4">Supported Platforms</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>Blinkit</li>
-              <li>Zepto</li>
-              <li>Swiggy Instamart</li>
-              <li>BigBasket</li>
-              <li>Dunzo</li>
-              <li>JioMart</li>
+            <h3 className="font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link to="/" className="text-muted-foreground hover:text-primary transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link to="/faqs" className="text-muted-foreground hover:text-primary transition-colors">
+                  FAQs
+                </Link>
+              </li>
+              <li>
+                <Link to="/support" className="text-muted-foreground hover:text-primary transition-colors">
+                  Customer Support
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">
+                  Contact Form
+                </Link>
+              </li>
             </ul>
           </div>
 

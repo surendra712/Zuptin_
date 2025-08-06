@@ -14,10 +14,10 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
       <div className="text-center space-y-6 py-12">
         <div className="space-y-4">
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-hero bg-clip-text text-transparent leading-tight">
-            Your Favorite Grocery Apps — All in One Smart Cart
+            Your Favorite Food & Grocery Apps — All in One Smart Cart
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Shop from Blinkit, Zepto, Instamart, BigBasket, Jiomart & more — all within Zuptin.
+            Shop from Blinkit, Zepto, Instamart, BigBasket, Swiggy & Zomato — all within Zuptin.
             Compare prices. Save time. Skip the app-switching.
           </p>
         </div>
@@ -29,11 +29,13 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
             onClick={onGetStarted}
             className="shadow-glow"
           >
-            <img 
-              src="/lovable-uploads/3a660009-4644-4dfd-a50d-d2070079b4b1.png" 
-              alt="Zuptin Logo" 
-              className="h-5 w-5 object-contain" 
-            />
+            <div className="w-5 h-5 rounded overflow-hidden mr-2">
+              <img 
+                src="/zuptin-logo.jpg" 
+                alt="Zuptin Logo" 
+                className="w-full h-full object-cover"
+              />
+            </div>
             Start Shopping with Zuptin
           </Button>
         </div>
@@ -68,7 +70,7 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
             <div>
               <h3 className="font-semibold text-lg">🔎 Compare Across Stores</h3>
               <p className="text-muted-foreground text-sm">
-                Effortlessly browse and compare prices from all major grocery apps —
+                Effortlessly browse and compare prices from all major grocery apps — 
                 save time, save money, shop smart.
               </p>
             </div>

@@ -1,10 +1,10 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, User, Mail, Calendar, Phone, Camera, Upload } from "lucide-react";
+import { ArrowLeft, User, Mail, Calendar, Phone, Camera } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,27 +13,19 @@ const Profile = () => {
   const { user, profile, fetchUserProfile } = useAuth();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [fullName, setFullName] = useState(profile?.full_name || "");
   const [phoneNumber, setPhoneNumber] = useState(profile?.phone_number || "");
   const [isUploading, setIsUploading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gradient-subtle flex items-center justify-center">
-        <Card className="w-full max-w-md">
-          <CardContent className="p-6 text-center">
-            <h2 className="text-2xl font-bold mb-4">Please sign in</h2>
-            <Button asChild>
-              <Link to="/auth">Sign In</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (profile) {
+      setFullName(profile.full_name || "");
+      setPhoneNumber(profile.phone_number || "");
+    }
+  }, [profile]);
 
   const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -50,9 +42,7 @@ const Profile = () => {
 
       if (uploadError) throw uploadError;
 
-      const { data } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(fileName);
+      const { data } = supabase.storage.from('avatars').getPublicUrl(fileName);
 
       const { error: updateError } = await supabase
         .from('profiles')
@@ -62,12 +52,8 @@ const Profile = () => {
       if (updateError) throw updateError;
 
       await fetchUserProfile(user.id);
-      toast({
-        title: "Avatar Updated",
-        description: "Your profile picture has been updated successfully.",
-      });
+      toast({ title: "Avatar Updated", description: "Your profile picture has been updated successfully." });
     } catch (error: any) {
-      console.error('Error uploading avatar:', error);
       toast({
         title: "Upload Failed",
         description: error.message || "Failed to upload avatar.",
@@ -80,7 +66,6 @@ const Profile = () => {
 
   const handleSaveProfile = async () => {
     if (!user) return;
-
     setIsUpdating(true);
     try {
       const { error } = await supabase
@@ -95,12 +80,8 @@ const Profile = () => {
 
       await fetchUserProfile(user.id);
       setIsEditing(false);
-      toast({
-        title: "Profile Updated",
-        description: "Your profile has been updated successfully.",
-      });
+      toast({ title: "Profile Updated", description: "Your profile has been updated successfully." });
     } catch (error: any) {
-      console.error('Error updating profile:', error);
       toast({
         title: "Update Failed",
         description: error.message || "Failed to update profile.",
@@ -110,6 +91,21 @@ const Profile = () => {
       setIsUpdating(false);
     }
   };
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-subtle flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardContent className="p-6 text-center">
+            <h2 className="text-2xl font-bold mb-4">Please sign in</h2>
+            <Button asChild>
+              <Link to="/auth">Sign In</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
@@ -158,8 +154,9 @@ const Profile = () => {
                 />
               </div>
               <CardTitle className="text-2xl">Profile Information</CardTitle>
+              {isUploading && <p className="text-sm text-muted-foreground">Uploading...</p>}
             </CardHeader>
-            
+
             <CardContent className="space-y-6">
               {isEditing ? (
                 <div className="space-y-4">
@@ -172,7 +169,6 @@ const Profile = () => {
                       placeholder="Enter your full name"
                     />
                   </div>
-                  
                   <div className="space-y-2">
                     <Label htmlFor="phoneNumber">Phone Number</Label>
                     <Input
@@ -182,7 +178,6 @@ const Profile = () => {
                       placeholder="Enter your phone number"
                     />
                   </div>
-                  
                   <div className="space-y-2">
                     <Label>Email</Label>
                     <Input value={user.email} disabled className="bg-muted" />
@@ -197,7 +192,6 @@ const Profile = () => {
                       <p className="font-medium">{profile?.full_name || 'Not provided'}</p>
                     </div>
                   </div>
-                  
                   <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
                     <Mail className="h-5 w-5 text-muted-foreground" />
                     <div>
@@ -205,7 +199,6 @@ const Profile = () => {
                       <p className="font-medium">{user.email}</p>
                     </div>
                   </div>
-                  
                   <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
                     <Phone className="h-5 w-5 text-muted-foreground" />
                     <div>
@@ -213,7 +206,6 @@ const Profile = () => {
                       <p className="font-medium">{profile?.phone_number || 'Not provided'}</p>
                     </div>
                   </div>
-                  
                   <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
                     <Calendar className="h-5 w-5 text-muted-foreground" />
                     <div>
@@ -225,19 +217,19 @@ const Profile = () => {
                   </div>
                 </div>
               )}
-              
+
               <div className="flex gap-4 pt-4">
                 {isEditing ? (
                   <>
-                    <Button 
-                      onClick={handleSaveProfile} 
+                    <Button
+                      onClick={handleSaveProfile}
                       disabled={isUpdating}
                       className="flex-1"
                     >
                       {isUpdating ? "Saving..." : "Save Changes"}
                     </Button>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       onClick={() => {
                         setIsEditing(false);
                         setFullName(profile?.full_name || "");
@@ -250,10 +242,7 @@ const Profile = () => {
                   </>
                 ) : (
                   <>
-                    <Button 
-                      onClick={() => setIsEditing(true)} 
-                      className="flex-1"
-                    >
+                    <Button onClick={() => setIsEditing(true)} className="flex-1">
                       Edit Profile
                     </Button>
                     <Button asChild variant="outline" className="flex-1">

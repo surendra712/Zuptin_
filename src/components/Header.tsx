@@ -20,11 +20,11 @@ const Header = ({ onLogoClick }: HeaderProps = {}) => {
             className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
           >
             <div className="relative">
-              <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow">
+              <div className="w-10 h-10 bg-gradient-primary rounded-xl overflow-hidden shadow-glow flex items-center justify-center">
                 <img 
-                  src="/lovable-uploads/3a660009-4644-4dfd-a50d-d2070079b4b1.png" 
+                  src="/zuptin-logo.jpg" 
                   alt="Zuptin Logo" 
-                  className="h-6 w-6 object-contain" 
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
@@ -32,7 +32,7 @@ const Header = ({ onLogoClick }: HeaderProps = {}) => {
               <h1 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 Zuptin
               </h1>
-              <p className="text-xs text-muted-foreground">All platforms, one app</p>
+              <p className="text-xs text-muted-foreground">Choose.. Compare.. Save..</p>
             </div>
           </button>
 

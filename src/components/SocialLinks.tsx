@@ -4,7 +4,7 @@ const SocialLinks = () => {
   return (
     <div className="flex items-center gap-4">
       <a
-        href="https://instagram.com/zuptiin_"
+        href="https://www.instagram.com/zuptin_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
         target="_blank"
         rel="noopener noreferrer"
         className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-glow"

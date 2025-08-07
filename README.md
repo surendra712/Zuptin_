@@ -1,73 +1,47 @@
-# Welcome to your Lovable project
+# 🛒 Zuptin - OneCart All-in-One Grocery Comparator
 
-## Project info
+Zuptin is a modern, user-friendly grocery comparison web application that allows users to compare prices across various platforms like Blinkit, Zepto, Instamart, BigBasket, and more — all in one place.
 
-**URL**: https://lovable.dev/projects/841b6174-c60e-470f-9ac3-13f6ddb664b5
+## 🔍 Features
 
-## How can I edit this code?
+- 🔄 Live price comparison across multiple grocery platforms
+- 👤 User authentication with Supabase
+- 🎨 Sleek UI built using ShadCN and Tailwind CSS
+- ⚙️ Settings management (notifications, ads, default platform)
+- 💾 Local data caching and export options
+- 🔗 Social media integration
+- 📱 Responsive design optimized for mobile and desktop
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🛠️ Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/841b6174-c60e-470f-9ac3-13f6ddb664b5) and start prompting.
+- **Framework**: React (with Vite)
+- **Language**: TypeScript
+- **UI Components**: ShadCN UI
+- **Styling**: Tailwind CSS
+- **Authentication & Database**: Supabase
+- **Icons**: Lucide React
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## 🚀 Getting Started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Make sure you have the following installed:
 
-Follow these steps:
+- Node.js (v18+ recommended)
+- npm or yarn
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Installation
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+```bash
+# Clone the repo
+git clone https://github.com/YOUR_USERNAME/onecart-all-in-one.git
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Navigate to the project folder
+cd onecart-all-in-one
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/841b6174-c60e-470f-9ac3-13f6ddb664b5) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+# Install dependencies
+npm install

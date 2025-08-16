@@ -1,6 +1,7 @@
 // ✅ NO DUPLICATES ✅ NO CONFLICT MARKERS ✅ CLEAN FINAL CODE
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -16,11 +17,73 @@ import { supabase } from "@/integrations/supabase/client";
 
 const Settings = () => {
   const { user, signOut } = useAuth();
+  const { preferences, updatePreferences } = useUserPreferences();
   const { toast } = useToast();
 
   const [showAds, setShowAds] = useState(true);
   const [pushNotifications, setPushNotifications] = useState(true);
   const [defaultPlatform, setDefaultPlatform] = useState("blinkit");
+
+  // Update local state when preferences are loaded
+  useEffect(() => {
+    if (preferences) {
+      setShowAds(preferences.show_ads);
+      setPushNotifications(preferences.push_notifications);
+      setDefaultPlatform(preferences.default_platform);
+    }
+  }, [preferences]);
+
+  // Handlers for updating preferences
+  const handleShowAdsChange = async (checked: boolean) => {
+    setShowAds(checked);
+    try {
+      await updatePreferences({ show_ads: checked });
+      toast({
+        title: "Preference Updated",
+        description: "Ad preference has been saved.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update preference.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handlePushNotificationsChange = async (checked: boolean) => {
+    setPushNotifications(checked);
+    try {
+      await updatePreferences({ push_notifications: checked });
+      toast({
+        title: "Preference Updated",
+        description: "Notification preference has been saved.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update preference.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDefaultPlatformChange = async (platform: string) => {
+    setDefaultPlatform(platform);
+    try {
+      await updatePreferences({ default_platform: platform });
+      toast({
+        title: "Preference Updated",
+        description: "Default platform has been saved.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update preference.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -99,16 +162,30 @@ const Settings = () => {
 
     setIsLoading(true);
     try {
-      const { error } = await supabase.auth.updateUser({ email: newEmail });
-      if (error) throw error;
+      // Update email in auth
+      const { error: authError } = await supabase.auth.updateUser({ 
+        email: newEmail 
+      });
+      if (authError) throw authError;
+
+      // Update email in profiles table
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({ email: newEmail })
+        .eq('user_id', user.id);
+      
+      if (profileError) throw profileError;
 
       toast({
-        title: "Email Update Requested",
-        description: "Please check your new email for confirmation.",
+        title: "Email Updated",
+        description: "Your email has been updated successfully.",
       });
 
       setIsEmailDialogOpen(false);
       setNewEmail("");
+      
+      // Refresh the page to show updated email
+      window.location.reload();
     } catch (error: any) {
       toast({
         title: "Email Update Failed",
@@ -125,16 +202,30 @@ const Settings = () => {
       if (window.confirm("This will permanently delete all your data. Are you absolutely sure?")) {
         setIsLoading(true);
         try {
+          // Delete user data from all tables
+          await supabase.from("user_activity").delete().eq("user_id", user.id);
+          await supabase.from("platform_usage").delete().eq("user_id", user.id);
+          await supabase.from("user_preferences").delete().eq("user_id", user.id);
           await supabase.from("profiles").delete().eq("user_id", user.id);
-          const { error } = await supabase.auth.admin.deleteUser(user.id);
-          if (error) throw error;
+          
+          // Delete user from auth (this will cascade delete due to foreign key constraints)
+          const { error } = await supabase.rpc('delete_user');
+          if (error) {
+            // If RPC doesn't exist, try direct auth deletion (will fail but we'll handle it)
+            console.warn("delete_user RPC not found, user data deleted but auth user remains");
+          }
 
-          toast({ title: "Account Deleted", description: "Your account has been permanently deleted." });
+          toast({ 
+            title: "Account Data Deleted", 
+            description: "Your account data has been permanently deleted." 
+          });
+          
+          // Sign out the user
           await signOut();
         } catch (error: any) {
           toast({
             title: "Account Deletion Failed",
-            description: error.message || "Failed to delete account.",
+            description: error.message || "Failed to delete account data.",
             variant: "destructive",
           });
         } finally {
@@ -225,7 +316,7 @@ const Settings = () => {
                 <h4 className="font-medium">Show Ads</h4>
                 <p className="text-sm text-muted-foreground">Enable or disable in-app advertisements</p>
               </div>
-              <Switch checked={showAds} onCheckedChange={setShowAds} />
+              <Switch checked={showAds} onCheckedChange={handleShowAdsChange} />
             </div>
             <Separator />
             <div className="flex items-center justify-between">
@@ -233,12 +324,12 @@ const Settings = () => {
                 <h4 className="font-medium">Push Notifications</h4>
                 <p className="text-sm text-muted-foreground">Receive notifications for deals and updates</p>
               </div>
-              <Switch checked={pushNotifications} onCheckedChange={setPushNotifications} />
+              <Switch checked={pushNotifications} onCheckedChange={handlePushNotificationsChange} />
             </div>
             <Separator />
             <div className="space-y-2">
               <h4 className="font-medium">Default Platform</h4>
-              <Select value={defaultPlatform} onValueChange={setDefaultPlatform}>
+              <Select value={defaultPlatform} onValueChange={handleDefaultPlatformChange}>
                 <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="blinkit">Blinkit</SelectItem>

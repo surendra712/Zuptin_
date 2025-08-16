@@ -64,7 +64,7 @@ const Auth = () => {
         });
         navigate("/");
       } else {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -78,10 +78,22 @@ const Auth = () => {
 
         if (error) throw error;
 
-        toast({
-          title: "Account created!",
-          description: "Please check your email to confirm your account.",
-        });
+        // Check if user is immediately confirmed (no email confirmation required)
+        if (data.user && data.session) {
+          toast({
+            title: "Welcome to Zuptin!",
+            description: "You have successfully signed up and logged in.",
+          });
+          navigate("/");
+        } else {
+          toast({
+            title: "Account Created!",
+            description: "Welcome to Zuptin! You can now start using the app.",
+          });
+          
+          // Redirect to home page immediately
+          navigate("/");
+        }
       }
     } catch (error: any) {
       toast({

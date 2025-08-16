@@ -31,10 +31,41 @@ const Profile = () => {
     const file = event.target.files?.[0];
     if (!file || !user) return;
 
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if (!allowedTypes.includes(file.type)) {
+      toast({
+        title: "Invalid File Type",
+        description: "Please upload a JPEG, PNG, WebP, or GIF image.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: "File Too Large",
+        description: "Please upload an image smaller than 5MB.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsUploading(true);
     try {
       const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}/avatar.${fileExt}`;
+      const fileName = `${user.id}/avatar-${Date.now()}.${fileExt}`;
+
+      // Delete old avatar if exists
+      if (profile?.avatar_url) {
+        const oldFileName = profile.avatar_url.split('/').pop();
+        if (oldFileName) {
+          await supabase.storage
+            .from('avatars')
+            .remove([`${user.id}/${oldFileName}`]);
+        }
+      }
 
       const { error: uploadError } = await supabase.storage
         .from('avatars')
@@ -46,13 +77,19 @@ const Profile = () => {
 
       const { error: updateError } = await supabase
         .from('profiles')
-        .update({ avatar_url: data.publicUrl })
+        .update({ 
+          avatar_url: data.publicUrl,
+          updated_at: new Date().toISOString()
+        })
         .eq('user_id', user.id);
 
       if (updateError) throw updateError;
 
       await fetchUserProfile(user.id);
-      toast({ title: "Avatar Updated", description: "Your profile picture has been updated successfully." });
+      toast({ 
+        title: "Avatar Updated", 
+        description: "Your profile picture has been updated successfully." 
+      });
     } catch (error: any) {
       toast({
         title: "Upload Failed",
@@ -66,13 +103,34 @@ const Profile = () => {
 
   const handleSaveProfile = async () => {
     if (!user) return;
+    
+    // Validate inputs
+    if (fullName.trim().length < 2) {
+      toast({
+        title: "Invalid Name",
+        description: "Full name must be at least 2 characters long.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (phoneNumber.trim() && !/^\+?[\d\s\-\(\)]+$/.test(phoneNumber.trim())) {
+      toast({
+        title: "Invalid Phone Number",
+        description: "Please enter a valid phone number.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsUpdating(true);
     try {
       const { error } = await supabase
         .from('profiles')
         .update({
-          full_name: fullName.trim() || null,
+          full_name: fullName.trim(),
           phone_number: phoneNumber.trim() || null,
+          updated_at: new Date().toISOString()
         })
         .eq('user_id', user.id);
 
@@ -80,7 +138,10 @@ const Profile = () => {
 
       await fetchUserProfile(user.id);
       setIsEditing(false);
-      toast({ title: "Profile Updated", description: "Your profile has been updated successfully." });
+      toast({ 
+        title: "Profile Updated", 
+        description: "Your profile has been updated successfully." 
+      });
     } catch (error: any) {
       toast({
         title: "Update Failed",

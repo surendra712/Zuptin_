@@ -1,4 +1,4 @@
-# 🛒 Zuptin - OneCart All-in-One Grocery Comparator
+# 🛒 Zuptin - All-in-One Grocery Comparator
 
 Zuptin is a modern, user-friendly grocery comparison web application that allows users to compare prices across various platforms like Blinkit, Zepto, Instamart, BigBasket, and more — all in one place.
 
@@ -38,10 +38,10 @@ Make sure you have the following installed:
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/onecart-all-in-one.git
+git clone https://github.com/YOUR_USERNAME/zuptin.git
 
 # Navigate to the project folder
-cd onecart-all-in-one
+cd zuptin
 
 # Install dependencies
 npm install

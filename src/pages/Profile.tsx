@@ -31,7 +31,6 @@ const Profile = () => {
     const file = event.target.files?.[0];
     if (!file || !user) return;
 
-    // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
     if (!allowedTypes.includes(file.type)) {
       toast({
@@ -42,7 +41,6 @@ const Profile = () => {
       return;
     }
 
-    // Validate file size (5MB limit)
     if (file.size > 5 * 1024 * 1024) {
       toast({
         title: "File Too Large",
@@ -57,7 +55,6 @@ const Profile = () => {
       const fileExt = file.name.split('.').pop();
       const fileName = `${user.id}/avatar-${Date.now()}.${fileExt}`;
 
-      // Delete old avatar if exists
       if (profile?.avatar_url) {
         const oldFileName = profile.avatar_url.split('/').pop();
         if (oldFileName) {
@@ -104,7 +101,6 @@ const Profile = () => {
   const handleSaveProfile = async () => {
     if (!user) return;
     
-    // Validate inputs
     if (fullName.trim().length < 2) {
       toast({
         title: "Invalid Name",

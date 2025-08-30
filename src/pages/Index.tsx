@@ -14,7 +14,6 @@ const Index = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Reset to hero view when navigating to home
   useEffect(() => {
     if (location.pathname === '/') {
       setCurrentView('hero');
@@ -34,8 +33,6 @@ const Index = () => {
     setCurrentView('hero');
     setSelectedPlatform(null);
   };
-
-  // Platform selection now directly opens external URLs
 
   const handleBack = () => {
     if (currentView === 'viewer') {
@@ -63,7 +60,7 @@ const Index = () => {
           </div>
         )}
 
-        {/* Viewer removed - platforms now open directly in new tabs */}
+
       </main>
       
       <Footer />

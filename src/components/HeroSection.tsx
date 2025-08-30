@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ShoppingCart, Zap, Smartphone, Clock } from "lucide-react";
-import SocialLinks from "./SocialLinks";
 
 interface HeroSectionProps {
   onGetStarted: () => void;
@@ -10,7 +9,6 @@ interface HeroSectionProps {
 const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
   return (
     <div className="space-y-12">
-      {/* Hero Content */}
       <div className="text-center space-y-6 py-12">
         <div className="space-y-4">
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-hero bg-clip-text text-transparent leading-tight">
@@ -39,13 +37,8 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
             Start Shopping with Zuptin
           </Button>
         </div>
-        
-        <div className="flex justify-center mt-8">
-          <SocialLinks />
-        </div>
       </div>
 
-      {/* Features Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="border-border/50 hover:shadow-elegant transition-all duration-300 group">
           <CardContent className="p-6 text-center space-y-4">

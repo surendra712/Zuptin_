@@ -336,7 +336,7 @@ const Settings = () => {
                   <SelectItem value="instamart">Swiggy Instamart</SelectItem>
                   <SelectItem value="bigbasket">BigBasket</SelectItem>
                   <SelectItem value="swiggy">Swiggy</SelectItem>
-                  <SelectItem value="zomato">Zomato</SelectItem>
+
                 </SelectContent>
               </Select>
             </div>

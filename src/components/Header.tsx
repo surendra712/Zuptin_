@@ -15,8 +15,8 @@ const Header = ({ onLogoClick }: HeaderProps = {}) => {
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          <button 
-            onClick={onLogoClick}
+          <Link 
+            to="/"
             className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
           >
             <div className="relative">
@@ -34,7 +34,7 @@ const Header = ({ onLogoClick }: HeaderProps = {}) => {
               </h1>
               <p className="text-xs text-muted-foreground">Choose.. Compare.. Save..</p>
             </div>
-          </button>
+          </Link>
 
           <div className="flex items-center gap-2">
             {!loading && (

@@ -47,15 +47,6 @@ const platforms = [
     description: "Food delivery & more",
     icon: "🍽️",
     features: ["Food delivery", "Quick commerce"]
-  },
-  {
-    id: "zomato",
-    name: "Zomato",
-    url: "https://www.zomato.com",
-    color: "bg-red-500",
-    description: "Food delivery platform",
-    icon: "🍕",
-    features: ["Food delivery", "Restaurant discovery"]
   }
 ];
 
@@ -81,8 +72,66 @@ const PlatformGrid = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
-        {platforms.map((platform) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {platforms.slice(0, 3).map((platform) => (
+          <Card
+            key={platform.id}
+            className="group hover:shadow-elegant transition-all duration-300 hover:scale-105 cursor-pointer border-border/50"
+            onClick={() => handlePlatformClick(platform.url, platform.name)}
+          >
+            <CardContent className="p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`w-12 h-12 ${platform.color} rounded-xl flex items-center justify-center text-white text-xl shadow-md`}
+                  >
+                    {platform.icon}
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{platform.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {platform.description}
+                    </p>
+                  </div>
+                </div>
+                <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {platform.features.map((feature, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-1 text-xs bg-secondary/50 px-2 py-1 rounded-full"
+                  >
+                    {index === 0 ? (
+                      <Zap className="h-3 w-3" />
+                    ) : (
+                      <Star className="h-3 w-3" />
+                    )}
+                    {feature}
+                  </div>
+                ))}
+              </div>
+
+              <Button
+                variant="platform"
+                className="w-full justify-between"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePlatformClick(platform.url, platform.name);
+                }}
+              >
+                Open Platform
+                <ExternalLink className="h-4 w-4" />
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Second row with 2 platforms centered */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        {platforms.slice(3).map((platform) => (
           <Card
             key={platform.id}
             className="group hover:shadow-elegant transition-all duration-300 hover:scale-105 cursor-pointer border-border/50"

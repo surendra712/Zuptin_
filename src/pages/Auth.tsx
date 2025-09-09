@@ -62,7 +62,7 @@ const Auth = () => {
 
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(forgotEmail, {
-        redirectTo: `${window.location.origin}/reset-password`,
+        redirectTo: `${import.meta.env.VITE_FRONTEND_URL || window.location.origin}/reset-password`,
       });
 
       if (error) {
@@ -123,7 +123,7 @@ const Auth = () => {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/`,
+            emailRedirectTo: `${import.meta.env.VITE_FRONTEND_URL || window.location.origin}/auth/callback`,
             data: {
               full_name: fullName,
               phone_number: `${countryCode}${phoneNumber}`,
@@ -140,13 +140,18 @@ const Auth = () => {
             description: "You have successfully signed up and logged in.",
           });
           navigate("/");
+        } else if (data.user && !data.session) {
+          // Email confirmation required
+          toast({
+            title: "Check Your Email!",
+            description: "We've sent you a confirmation link. Please check your email and click the link to verify your account.",
+          });
+          // Stay on auth page to show the message
         } else {
           toast({
             title: "Account Created!",
             description: "Welcome to Zuptin! You can now start using the app.",
           });
-          
-          // Redirect to home page immediately
           navigate("/");
         }
       }

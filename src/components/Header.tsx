@@ -15,8 +15,9 @@ const Header = ({ onLogoClick }: HeaderProps = {}) => {
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          <Link 
+          <Link
             to="/"
+            onClick={onLogoClick}
             className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
           >
             <div className="relative">

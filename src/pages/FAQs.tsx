@@ -20,7 +20,7 @@ const FAQs = () => {
     },
     {
       question: "How do I create an account?",
-      answer: "Click 'Sign Up' on the homepage, enter your details, and confirm your email."
+      answer: "Click 'Sign Up' on the homepage, enter your details, and you're in instantly."
     },
     {
       question: "How do I update my profile details?",
@@ -28,11 +28,11 @@ const FAQs = () => {
     },
     {
       question: "How can I change my email?",
-      answer: "In the settings page, choose 'Update Email', enter your new email, and verify it."
+      answer: "In the settings page, choose 'Update Email', enter your new email, and it updates instantly."
     },
     {
       question: "How do I reset my password?",
-      answer: "On the login page, click 'Forgot Password?' and follow the email instructions."
+      answer: "Go to Settings → Change Password and update it instantly."
     },
     {
       question: "How do I delete my account?",

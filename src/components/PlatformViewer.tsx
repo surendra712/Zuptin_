@@ -22,9 +22,17 @@ const PlatformViewer = ({ platform, onBack }: PlatformViewerProps) => {
 
   const handleRefresh = () => {
     setIsLoading(true);
-    const iframe = document.getElementById('platform-iframe') as HTMLIFrameElement;
+    const iframe = document.getElementById('platform-iframe') as HTMLIFrameElement | null;
     if (iframe) {
-      iframe.src = iframe.src;
+      // Force reload by changing a cache-busting query parameter
+      try {
+        const url = new URL(iframe.src, window.location.href);
+        url.searchParams.set('t', Date.now().toString());
+        iframe.src = url.toString();
+      } catch {
+        // Fallback for invalid URL bases
+        iframe.src = `${iframe.src}${iframe.src.includes('?') ? '&' : '?'}t=${Date.now()}`;
+      }
     }
   };
 

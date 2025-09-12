@@ -45,47 +45,14 @@ const Auth = () => {
   const passwordChecks = validatePassword(password);
   const isPasswordValid = Object.values(passwordChecks).every(check => check);
 
-  // Handle forgot password
+  // Handle forgot password (instant flow disabled to remove email step)
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!forgotEmail) {
-      toast({
-        title: "Email Required",
-        description: "Please enter your email address.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setResetLoading(true);
-
-    try {
-      const { error } = await supabase.auth.resetPasswordForEmail(forgotEmail, {
-        redirectTo: `${import.meta.env.VITE_FRONTEND_URL || window.location.origin}/reset-password`,
-      });
-
-      if (error) {
-        console.error("Error sending reset password email:", error.message);
-        throw error;
-      }
-
-      toast({
-        title: "Reset Email Sent",
-        description: "Password reset link sent! Check your email.",
-      });
-      
-      setShowForgotPassword(false);
-      setForgotEmail("");
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: "Failed to send reset email. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setResetLoading(false);
-    }
+    toast({
+      title: "Password Reset",
+      description: "Use Settings > Change Password to update your password instantly.",
+    });
+    setShowForgotPassword(false);
   };
 
 
@@ -123,7 +90,6 @@ const Auth = () => {
           email,
           password,
           options: {
-            emailRedirectTo: `${import.meta.env.VITE_FRONTEND_URL || window.location.origin}/auth/callback`,
             data: {
               full_name: fullName,
               phone_number: `${countryCode}${phoneNumber}`,
@@ -133,32 +99,26 @@ const Auth = () => {
 
         if (error) throw error;
 
-        // Check if user is immediately confirmed (no email confirmation required)
-        if (data.user && data.session) {
+        // Immediately log in the user after successful signup
+        if (data.user) {
+          // If no session returned (project requires confirm), create session explicitly
+          if (!data.session) {
+            const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+            if (signInError) throw signInError;
+          }
+
           toast({
             title: "Welcome to Zuptin!",
             description: "You have successfully signed up and logged in.",
           });
           navigate("/");
-        } else if (data.user && !data.session) {
-          // Email confirmation required
-          toast({
-            title: "Check Your Email!",
-            description: "We've sent you a confirmation link. Please check your email and click the link to verify your account.",
-          });
-          // Stay on auth page to show the message
-        } else {
-          toast({
-            title: "Account Created!",
-            description: "Welcome to Zuptin! You can now start using the app.",
-          });
-          navigate("/");
         }
       }
-    } catch (error: any) {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
       toast({
         title: "Error",
-        description: error.message,
+        description: message,
         variant: "destructive",
       });
     } finally {
@@ -333,7 +293,7 @@ const Auth = () => {
                         required
                       />
                       <p className="text-sm text-muted-foreground">
-                        We'll send you a link to reset your password.
+                        Reset emails are disabled. Use Settings → Change Password to update instantly.
                       </p>
                     </div>
                     <div className="flex gap-2">
@@ -345,9 +305,8 @@ const Auth = () => {
                       >
                         Cancel
                       </Button>
-                      <Button type="submit" disabled={resetLoading} className="flex-1">
-                        {resetLoading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                        Send Reset Link
+                      <Button type="submit" disabled={false} className="flex-1">
+                        Close
                       </Button>
                     </div>
                   </form>

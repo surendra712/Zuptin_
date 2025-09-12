@@ -65,8 +65,8 @@ const ResetPassword = () => {
         });
         navigate("/auth");
       }
-    } catch (error: any) {
-      setErrorMsg("An unexpected error occurred");
+    } catch (error) {
+      setErrorMsg(error instanceof Error ? error.message : "An unexpected error occurred");
     } finally {
       setLoading(false);
     }

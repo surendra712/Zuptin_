@@ -138,10 +138,11 @@ const Settings = () => {
       setIsPasswordDialogOpen(false);
       setNewPassword("");
       setConfirmPassword("");
-    } catch (error: any) {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Failed to change password.";
       toast({
         title: "Password Change Failed",
-        description: error.message || "Failed to change password.",
+        description: message,
         variant: "destructive",
       });
     } finally {
@@ -185,10 +186,11 @@ const Settings = () => {
       
       // Refresh the page to show updated email
       window.location.reload();
-    } catch (error: any) {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Failed to update email.";
       toast({
         title: "Email Update Failed",
-        description: error.message || "Failed to update email.",
+        description: message,
         variant: "destructive",
       });
     } finally {
@@ -221,10 +223,11 @@ const Settings = () => {
           
           // Sign out the user
           await signOut();
-        } catch (error: any) {
+        } catch (error) {
+          const message = error instanceof Error ? error.message : "Failed to delete account data.";
           toast({
             title: "Account Deletion Failed",
-            description: error.message || "Failed to delete account data.",
+            description: message,
             variant: "destructive",
           });
         } finally {

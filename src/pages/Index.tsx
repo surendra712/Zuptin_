@@ -9,7 +9,8 @@ import { useAuth } from "@/hooks/useAuth";
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<'hero' | 'platforms' | 'viewer'>('hero');
-  const [selectedPlatform, setSelectedPlatform] = useState<any>(null);
+  // Track selected platform by id or object; use unknown to avoid any
+  const [selectedPlatform, setSelectedPlatform] = useState<unknown>(null);
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();

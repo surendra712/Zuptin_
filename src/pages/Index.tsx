@@ -27,7 +27,7 @@ const Index = () => {
       navigate('/auth');
       return;
     }
-    setCurrentView('platforms');
+    navigate('/platforms');
   };
 
   const handleLogoClick = () => {
